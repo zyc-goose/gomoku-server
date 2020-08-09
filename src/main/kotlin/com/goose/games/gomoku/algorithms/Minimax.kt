@@ -41,7 +41,8 @@ class Minimax(
         val isMaximizer = monitor.blackNext
         val charValue = if (isMaximizer) 'b' else 'w'
         val candidates = mutableListOf<Report>()
-        for (point in validPoints) {
+        val validPointsOptimizedOrder = optimizedSearchOrder(validPoints, isMaximizer)
+        for (point in validPointsOptimizedOrder) {
             gameState.set(point, charValue)
             val searchResult = search(remainingDepth - 1, alpha, beta)
             if (isMaximizer) {
@@ -63,5 +64,15 @@ class Minimax(
         val report = candidates.filter { it.score == selectedScore }.random()
         val nodeCount = candidates.sumBy { it.nodeCount } + 1
         return Report(report.score, report.point, nodeCount)
+    }
+
+    fun optimizedSearchOrder(points: List<Point>, isMaximizer: Boolean): List<Point> {
+        val ch = if (isMaximizer) 'b' else 'w'
+        return points.sortedByDescending { point ->
+            gameState.set(point, ch)
+            val score = evaluator.score
+            gameState.clear(point)
+            if (isMaximizer) score else -score
+        }
     }
 }
