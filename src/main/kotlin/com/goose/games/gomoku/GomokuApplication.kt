@@ -21,8 +21,11 @@ class GomokuApplication {
 	}
 
 	@GetMapping("/solve")
-	fun solve(@RequestParam(value = "repr", defaultValue = "") repr: String): Minimax.Report {
-		val solver = ConcurrentSolver(repr, 3)
+	fun solve(
+			@RequestParam(value = "repr", defaultValue = "") repr: String,
+			@RequestParam(value = "depth", defaultValue = "3") depth: Int
+	): Minimax.Report {
+		val solver = ConcurrentSolver(repr, depth)
 		var report = Minimax.Report(0, Point(0, 0), 0)
 		measureTimeMillis {
 			report = solver.solve()
