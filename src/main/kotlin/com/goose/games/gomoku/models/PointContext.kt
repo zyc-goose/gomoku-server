@@ -64,4 +64,12 @@ class PointContext(val nrows: Int, val ncols: Int) {
         points.add(curPoint)
         return points
     }
+
+    fun square(point: Point, halfSpan: Int): List<Point> {
+        val top = maxOf(0, point.row - halfSpan)
+        val bottom = minOf(nrows - 1, point.row + halfSpan)
+        val left = maxOf(0, point.col - halfSpan)
+        val right = minOf(ncols - 1, point.col + halfSpan)
+        return (top..bottom).map { row -> (left..right).map { col -> Point(row, col) } }.flatten()
+    }
 }

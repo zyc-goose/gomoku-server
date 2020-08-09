@@ -37,4 +37,22 @@ class PointContextTests {
         assertEquals(points.last(), Point(0, 7))
         assertEquals(points.size, 8)
     }
+
+    @Test
+    fun square_normal() {
+        val points = context.square(Point(7, 7), 2)
+        assertEquals(points.size, 25)
+    }
+
+    @Test
+    fun square_edge_topLeft() {
+        val points = context.square(Point(0, 1), 2)
+        assertEquals(points.size, 12)
+    }
+
+    @Test
+    fun square_edge_bottomRight() {
+        val points = context.square(Point(14, 13), 2)
+        assertEquals(points.size, 12)
+    }
 }

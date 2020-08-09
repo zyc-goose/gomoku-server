@@ -10,8 +10,9 @@ class GameState(repr: String) {
     private val nrows = 15
     private val ncols = 15
     private val state = initSquareArray(nrows, ncols, 's')
-    private val pointContext = PointContext(nrows, ncols)
     private val observers = mutableListOf<Observer>()
+
+    val pointContext = PointContext(nrows, ncols)
 
     init {
         var number = 0
