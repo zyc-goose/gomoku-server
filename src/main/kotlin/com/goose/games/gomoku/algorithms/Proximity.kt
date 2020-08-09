@@ -37,6 +37,8 @@ class Proximity(val gameState: GameState, val halfSpan: Int): GameState.Observer
         repeat(bufferCount) { validPoints.remove(bufferPoints.pop()) }
     }
 
+    override fun willSet(point: Point, value: Char) {}
+
     override fun didSet(point: Point, value: Char) {
         setValidAround(point, true)
     }
