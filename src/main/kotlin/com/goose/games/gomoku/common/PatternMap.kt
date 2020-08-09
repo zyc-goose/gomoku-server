@@ -27,7 +27,9 @@ val patternMap = mapOf(
         // 空5
         "bsbbb" to 2400,
         "bbsbb" to 2200,
-        "bbbsb" to 2400
+        "bbbsb" to 2400,
+        // 5连珠
+        "bbbbb" to 1000000
 )
 
 val String.bwInverted: String
