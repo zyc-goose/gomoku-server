@@ -5,17 +5,21 @@ import com.goose.games.gomoku.models.Point
 import java.util.*
 
 class Proximity(val gameState: GameState, val halfSpan: Int): GameState.Observer {
-    val validPoints = mutableSetOf<Point>()
-    val bufferPoints = Stack<Point>()
-    val bufferCounts = Stack<Int>()
+    private val validPoints = mutableSetOf<Point>()
+    private val bufferPoints = Stack<Point>()
+    private val bufferCounts = Stack<Int>()
 
-    val pointContext = gameState.pointContext
+    private val pointContext = gameState.pointContext
 
     init {
         gameState.addObserver(this)
         pointContext.all()
                 .filter { gameState.get(it) != 's' }
                 .forEach { setValidAround(it, false) }
+    }
+
+    fun getValidPoints(): List<Point> {
+        return validPoints.toList()
     }
 
     fun setValidAround(point: Point, tracked: Boolean) {
