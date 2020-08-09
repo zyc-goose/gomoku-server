@@ -4,6 +4,7 @@ import com.goose.games.gomoku.common.initSquareArray
 
 class GameState(repr: String) {
     interface Observer {
+        fun willSet(point: Point, value: Char)
         fun didSet(point: Point, value: Char)
         fun didClear(point: Point)
     }
@@ -45,6 +46,7 @@ class GameState(repr: String) {
 
     fun set(point: Point, value: Char) {
         if (get(point) == 's' && value != 's') {
+            observers.forEach { it.willSet(point, value) }
             state[point.row][point.col] = value
             observers.forEach { it.didSet(point, value) }
         }

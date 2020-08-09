@@ -13,6 +13,9 @@ class Proximity(val gameState: GameState, val halfSpan: Int): GameState.Observer
 
     init {
         gameState.addObserver(this)
+        pointContext.all()
+                .filter { gameState.get(it) != 's' }
+                .forEach { setValidAround(it, false) }
     }
 
     fun setValidAround(point: Point, tracked: Boolean) {

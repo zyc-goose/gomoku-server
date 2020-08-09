@@ -55,4 +55,9 @@ class PointContextTests {
         val points = context.square(Point(14, 13), 2)
         assertEquals(points.size, 12)
     }
+
+    @Test
+    fun all() {
+        assertEquals(context.all().size, 225)
+    }
 }

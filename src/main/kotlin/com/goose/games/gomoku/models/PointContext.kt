@@ -19,7 +19,7 @@ class PointContext(val nrows: Int, val ncols: Int) {
         return Point(row, col)
     }
 
-    fun scan(point: Point, halfSpan: Int, dir: Dir): List<Point> {
+    fun scan(point: Point, halfSpan: Int, dir: Dir): Pair<List<Point>, Int> {
         val topSpace = point.row
         val bottomSpace = nrows - point.row - 1
         val leftSpace = point.col
@@ -57,12 +57,17 @@ class PointContext(val nrows: Int, val ncols: Int) {
         }
         val points = mutableListOf<Point>()
         var curPoint = beginPoint
+        var pivot = -1
+        var index = 0
         while (curPoint != endPoint) {
             points.add(curPoint)
+            if (curPoint == point) { pivot = index }
             curPoint += delta
+            ++index
         }
         points.add(curPoint)
-        return points
+        if (curPoint == point) { pivot = index }
+        return Pair(points, pivot)
     }
 
     fun square(point: Point, halfSpan: Int): List<Point> {
@@ -71,5 +76,9 @@ class PointContext(val nrows: Int, val ncols: Int) {
         val left = maxOf(0, point.col - halfSpan)
         val right = minOf(ncols - 1, point.col + halfSpan)
         return (top..bottom).map { row -> (left..right).map { col -> Point(row, col) } }.flatten()
+    }
+
+    fun all(): List<Point> {
+        return (0 until nrows).map { row -> (0 until ncols).map { col -> Point(row, col) } }.flatten()
     }
 }
