@@ -4,6 +4,7 @@ import com.goose.games.gomoku.algorithms.*
 import com.goose.games.gomoku.common.patternMap
 import com.goose.games.gomoku.models.GameState
 import com.goose.games.gomoku.models.Point
+import com.goose.games.gomoku.optimization.ConcurrentSolver
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,15 +22,10 @@ class GomokuApplication {
 
 	@GetMapping("/solve")
 	fun solve(@RequestParam(value = "repr", defaultValue = "") repr: String): Minimax.Report {
-		val gameState = GameState(repr)
-		val monitor = Monitor(gameState)
-		val proximity = Proximity(gameState, 2)
-		val acAuto = ACAutomata(patternMap.keys)
-		val evaluator = Evaluator(gameState, acAuto)
-		val minimax = Minimax(gameState, proximity, evaluator, monitor)
+		val solver = ConcurrentSolver(repr, 3)
 		var report = Minimax.Report(0, Point(0, 0), 0)
 		measureTimeMillis {
-			report = minimax.run(3)
+			report = solver.solve()
 		}.also { println("time elapsed = $it ms") }
 		return report
 	}
