@@ -24,7 +24,8 @@ class ConcurrentSolver(val repr: String, val depth: Int) {
             val evaluator = Evaluator(gameState, acAuto)
             val minimax = Minimax(gameState, proximity, evaluator, monitor)
             gameState.set(point, if (monitor.blackNext) 'b' else 'w')
-            return minimax.run(depth)
+            val report = minimax.run(depth)
+            return Minimax.Report(report.score, point, report.nodeCount)
         }
     }
 
