@@ -6,6 +6,7 @@ import com.goose.games.gomoku.models.GameState
 import com.goose.games.gomoku.models.Point
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -19,8 +20,12 @@ class GomokuApplication {
 		return "Hello, ${name}!"
 	}
 
+	@CrossOrigin(origins = ["http://localhost:3000"])
 	@GetMapping("/solve")
-	fun solve(@RequestParam(value = "repr", defaultValue = "") repr: String): Minimax.Report {
+	fun solve(
+			@RequestParam(value = "repr", defaultValue = "") repr: String,
+			@RequestParam(value = "depth", defaultValue = "3") depth: Int
+	): Minimax.Report {
 		val gameState = GameState(repr)
 		val monitor = Monitor(gameState)
 		val proximity = Proximity(gameState, 2)
